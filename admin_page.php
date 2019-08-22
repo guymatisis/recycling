@@ -4,7 +4,6 @@ require('db_connect.php');
 
 $current_user = $_GET['current_user'];
 $action_str = "admin_page.php?current_user=".$current_user;
-echo action_str;
 // get values from the form
 function getPosts()
 {
@@ -27,8 +26,6 @@ function getPosts()
 }
   $data = getPosts();
 
-    echo 'data';
-  echo $data[13];
 // Search
 if(isset($_POST['search']))
 {
@@ -54,11 +51,14 @@ if(isset($_POST['search']))
                     $id = $row['Employee_ID'];
                     $fname = $row['First_Name'];
                     $lname = $row['Last_Name'];
-                    $phone_num = $row['Phone_Number'];
+                    $phone = $row['Phone_Number'];
                     $DOB = $row['DOB'];
                     $address = $row['Address_ID'];
                     $password = $row['Password'];
                     $email = $row['Email'];
+                    $user_name = $row['user_name'];
+                    $city = $row['Muni_ID'];
+
                     
                     $search_Query = "SELECT * FROM Address WHERE Address_ID = $address";
                     $search_Result = mysqli_query($conn, $search_Query);
@@ -71,7 +71,7 @@ if(isset($_POST['search']))
                                     $street_name = $row['Street'];
                                     $street_num = $row['Number'];
                                     $apt_num = $row['Apt_Num'];
-                                    echo $street;
+                                    
                                 }
                             }
                         }
@@ -145,13 +145,22 @@ if(isset($_POST['insert']))
     $fields_incomplete = True;
 
     }
+      if(empty($data[11]))
+    {
+        $phone_Err = "*Municipality ID is required";
+        $fields_incomplete = True;
+    }
      if(empty($data[12]))
     {
     $phone_Err = "*Phone number is required";
     $fields_incomplete = True;
     }
+         if(empty($data[14]))
+    {
+    $user_name_Err = "*User name is required";
+    $fields_incomplete = True;
+    }
    
- 
     if (!$fields_incomplete)
     {
         $insert_Query = "INSERT INTO Address (Street,Number,Apt_Num)  VALUES ('$data[10]',$data[9],$data[8])";
@@ -173,9 +182,9 @@ if(isset($_POST['insert']))
         
      
        $insert_Query = "INSERT INTO `Employees`
-        (First_Name, Last_Name,Phone_Number,DOB,Address_ID,Password,Email,Admin) 
+        (First_Name, Last_Name,Phone_Number,DOB,Address_ID,Password,Email,Admin,User_Name,Muni_ID) 
         VALUES 
-        ('$data[1]','$data[2]','$data[12]',STR_TO_DATE('$data[3]', '%Y-%m-%d'),LAST_INSERT_ID(),'$data[4]','$data[6]',0)";
+        ('$data[1]','$data[2]','$data[12]',STR_TO_DATE('$data[3]', '%Y-%m-%d'),LAST_INSERT_ID(),'$data[4]','$data[6]',1,'$data[14]', $data[11])";
         try{
             $insert_Result = mysqli_query($conn, $insert_Query);
             
@@ -234,7 +243,7 @@ if(isset($_POST['delete']))
 <!DOCTYPE Html>
 <html>
     <head>
-        <title>PHP INSERT UPDATE DELETE SEARCH</title>
+       <h1>EMPLOYEE DATABASE</h1>
         <p><?php echo $gen_err_message;?></p>
     </head>
     <body>
@@ -255,14 +264,16 @@ if(isset($_POST['delete']))
             <span class="error"> <?php echo $street_num_Err;?></span><br><br>
             <input type="text" name="street_name" placeholder="street name" value="<?php echo $street_name;?>">
             <span class="error"> <?php echo $street_name_Err;?></span><br><br>
-            <input type="text" name="city" placeholder="City" value="<?php echo $city;?>">
+            <input type="text" name="city" placeholder="Municipality ID" value="<?php echo $city;?>">
             <span class="error"> <?php echo $city_Err;?></span><br><br>
             <input type="text" name="password" placeholder="Password" value="<?php echo $password;?>">
             <span class="error"> <?php echo $password_Err;?></span><br><br>
             <input type="text" name="email" placeholder="Email" value="<?php echo $email;?>">
             <span class="error"> <?php echo $email_Err;?></span><br><br>
-            <input type="text" name="phone" placeholder="phone_number" value="<?php echo $phone;?>">
+            <input type="text" name="phone" placeholder="phone number" value="<?php echo $phone;?>">
             <span class="error"> <?php echo $phone_Err;?></span><br><br>
+            <input type="text" name="user_name" placeholder="User Name" value="<?php echo $user_name;?>">
+            <span class="error"> <?php echo $user_name_Err;?></span><br><br>
             <input type="hidden" name="current_user" value="<?php echo $current_user;?>"  />
             <div>
             

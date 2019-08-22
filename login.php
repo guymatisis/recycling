@@ -12,9 +12,10 @@ $result = $conn->query($sql);
 $count  = $result->num_rows;
 
 if($count==0) {
-	$sql = "SELECT * FROM Employees where User_ID='$user_name' and password = '$password'";
-    $result = $conn->query($sql);
+	$sql = "SELECT * FROM Employees where User_Name='$user_name' and Password = '$password'";
+    $result = mysqli_query($conn, $sql);
     $count  = $result->num_rows;
+   
     if($count==0)
     {
         $message = "COULDNT FIND USERNAME OR PASSWORD.";
@@ -22,12 +23,21 @@ if($count==0) {
     else
     {
     
-  
-        header('Location: admin_page.php?current_user=' .$user_name);
+        $row = mysqli_fetch_array($result);
+        if ($row['Admin'] == 1){
+            header('Location: admin_page.php?current_user=' .$user_name);
+        }
+        if ($row['Admin'] == 2){
+            header('Location: super_admin_page.php?current_user=' .$user_name);
+        }
         $message = "You are successfully authenticated!";
-	    $userID = $result['User_ID'];
+    
     }
 } else {
+
+
+        header('Location: index.html?current_user=' .$user_name);
+        
 	$message = "You are successfully authenticated!";
 	$userID = $result['User_ID'];
 }
