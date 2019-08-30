@@ -11,7 +11,7 @@ $sql = "SELECT * FROM registered_users where user_name = '$user_name' and passwo
 $result = $conn->query($sql);
 $count  = $result->num_rows;
 
-if($count==0) {
+if($count==0) { // EMPLOYEES
 	$sql = "SELECT * FROM Employees where User_Name='$user_name' and Password = '$password'";
     $result = mysqli_query($conn, $sql);
     $count  = $result->num_rows;
@@ -21,22 +21,26 @@ if($count==0) {
         $message = "COULDNT FIND USERNAME OR PASSWORD.";
     }
     else
-    {
+    { 
     
         $row = mysqli_fetch_array($result);
         if ($row['Admin'] == 1){
-            header('Location: admin_page.php?current_user=' .$user_name);
+            header('Location: user_main.php?current_user=' .$user_name);
         }
         if ($row['Admin'] == 2){
-            header('Location: super_admin_page.php?current_user=' .$user_name);
+            header('Location: super_user_main.php?current_user=' .$user_name);
+        }
+           if ($row['Admin'] == 3){
+            header('Location: admin_main.php?current_user=' .$user_name);
+        }
+        if ($row['Admin'] == 4){
+            header('Location: super_admin_main.php?current_user=' .$user_name);
         }
         $message = "You are successfully authenticated!";
-    
     }
-} else {
+} else { // REGULAR USERS
 
-
-        header('Location: index.html?current_user=' .$user_name);
+        header('Location: user_main.html?current_user=' .$user_name);
         
 	$message = "You are successfully authenticated!";
 	$userID = $result['User_ID'];

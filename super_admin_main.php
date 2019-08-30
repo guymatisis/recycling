@@ -1,6 +1,69 @@
-.<!doctype html>
+
+<?php 
+require('db_connect.php');
+$user_name= $_GET['current_user'];
+$sql = "SELECT * FROM Employees where user_name = '$user_name'";
+$result = $conn->query($sql);
+$count  = $result->num_rows;
+if($count>0)
+{
+     while($row = mysqli_fetch_array($result))
+    {
+    
+        $municipality = $row['Muni_ID'];
+    }
+
+}
+else
+{
+
+  echo "DATABASE ERROR!";
+}  
+?> 
+
+<style type="text/css">
+.title_bar{
+    position: relative;
+    background-color:blue;
+    position:relative;
+  width: 100%;
+    content: "";
+  clear: both;
+  display: table;
+}
+.title_bar_text{
+    float: left;
+    float:top;
+
+}
+.drop_down{
+    float: right;
+    float:top;
+
+}
+
+</style>
+
+
+<!doctype html>
 <html lang="en">
     <head>
+    	<div style = "width:100%;height:100%;">
+	       <div class = "title_bar" > 
+                <div class = "title_bar_text">
+                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
+                </div>
+                <select class = "drop_down" onChange="top.location.href=this.options[this.selectedIndex].value;"">
+                    <option selected="selected" value = "super_admin_main.php">Select Action</option>
+                    <option value="super_admin_add_delete_users.php"  >Add Delete Admin</option>
+                    <option value="super_admin_add_delete_users.php">Add Delete Municipality</option>
+                    <option value="super_admin_add_delete_users.php">Add Delete Bin Type</option>
+                </select>
+              </div>
+            <div id="map"  ></div>
+        </div>
+
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
@@ -12,21 +75,13 @@
         <style>
         #map {
             width: 100%;
-            height: 80%;
+            height: 814px;
         }
         </style>
         <title></title>
     </head>
-    <body>
-	    <div style = "width:100%;height:100%;top:0px;margin:0px;">
-	       <div style = "background-color:blue;position:relative;">
-                <h1 id = "title" style="text-align:center;">RAMAT HASHARON RECYCLING</h1>
-                <div id = login_buttons style = "position:absolute; right:0;top:0;">
-                	<button type = "button" id="login_button" onclick="location.href='./login.php';" = >Login</btn>
-                	<button type = "button" id="register_button" onclick="location.href='./register.html';">Sign Up</btn>
-                </div> 
-              </div>
-            <div id="map"  ></div>
+    <body>	
+        <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
@@ -42,7 +97,7 @@
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[32.12473229934793,34.818982136703056],[32.14869120637521,34.87536125224076]]);
+        }).fitBounds([[32.12545528948175,34.819644190593806],[32.14941400661273,34.87602330613151]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
         L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
@@ -58,9 +113,6 @@
         function pop_sample_1(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
-                    </tr>\
-					<tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                 </table>';
