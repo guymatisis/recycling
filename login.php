@@ -40,13 +40,15 @@ if($count==0) { // EMPLOYEES
     }
 } else { // REGULAR USERS
 
-        header('Location: user_main.html?current_user=' .$user_name);
+        header('Location: user_main.php?current_user=' .$user_name);
         
 	$message = "You are successfully authenticated!";
 	$userID = $result['User_ID'];
 }
 echo $message;
 ?> 
+
+
 
 
 

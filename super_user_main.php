@@ -1,13 +1,67 @@
+
+<?php 
+require('db_connect.php');
+$user_name= $_GET['current_user'];
+$sql = "SELECT * FROM Employees where user_name = '$user_name'";
+$result = $conn->query($sql);
+$count  = $result->num_rows;
+if($count>0)
+{
+     while($row = mysqli_fetch_array($result))
+    {
+    
+        $municipality = $row['Muni_ID'];
+    }
+
+}
+else
+{
+
+  echo "DATABASE ERROR!";
+}  
+?> 
+
+<style type="text/css">
+.title_bar{
+    position: relative;
+    background-color:blue;
+    position:relative;
+  width: 100%;
+    content: "";
+  clear: both;
+  display: table;
+}
+.title_bar_text{
+    float: left;
+    float:top;
+
+}
+.drop_down{
+    float: right;
+    float:top;
+
+}
+
+</style>
+
+
 <!doctype html>
 <html lang="en">
     <head>
-    	<div style = "width:100%;height:100%;top:0px;margin:0px;">
-	       <div style = "background-color:blue;position:relative; height: 70px;">
-                <h1 id = "title" style="text-align:center;">RAMAT HASHARON RECYCLING</h1>
-                <div id = login_buttons style = "position:absolute; right:0;top:0;">
-                	<button type = "button" id="login_button" onclick="location.href='./login.php';" style="font-size: 20px" >Login</btn>
-                	<button type = "button" id="register_button" onclick="location.href='./register.html';" style="font-size: 20px">Sign Up</btn>
-                </div> 
+    	<div style = "width:100%;height:100%;">
+	       <div class = "title_bar" > 
+                <div class = "title_bar_text">
+                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
+                </div>
+                <select class = "drop_down" onChange="top.location.href=this.options[this.selectedIndex].value;"">
+                    <option selected="selected" value = "super_admin_main.php">Select Action</option>
+                    <option value="edit_users.php"  >Add Delete Registerd User</option>
+                    <option value="edit_bins.php">Edit Bin Location</option>
+                    <option value="super_admin_add_delete_users.php">Get Efficient Bin Distribution</option>
+                    <option value="super_admin_edit_users.php"  >Edit Building Data</option>
+                    <option value="view_full_bin_notifications.php">Full Bin Notifications</option>
+                    <option value="super_admin_add_delete_users.php">Bin Location Suggestions</option>
+                </select>
               </div>
             <div id="map"  ></div>
         </div>

@@ -55,9 +55,9 @@ else
                 </div>
                 <select class = "drop_down" onChange="top.location.href=this.options[this.selectedIndex].value;"">
                     <option selected="selected" value = "super_admin_main.php">Select Action</option>
-                    <option value="super_admin_add_delete_users.php"  >Add Delete Admin</option>
-                    <option value="super_admin_add_delete_users.php">Add Delete Municipality</option>
-                    <option value="super_admin_add_delete_users.php">Add Delete Bin Type</option>
+                    <option value="super_admin_muni.php">Edit Municipality</option>
+                    <option value="super_admin_edit_employees.php">Edit Super Users</option>
+                    <option value="super_admin_edit_bin_types.php">Edit Bin Types</option>
                 </select>
               </div>
             <div id="map"  ></div>
