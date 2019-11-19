@@ -4,8 +4,7 @@ require('db_connect.php');
 
 $user_name = $_GET['uname'];
 $password = $_GET['psw'];
-echo $user_name;
-echo $password;
+$bad_entry= $_GET['bad_entry'];
 
 $sql = "SELECT * FROM registered_users where user_name = '$user_name' and password = '$password'";
 $result = $conn->query($sql);
@@ -16,9 +15,10 @@ if($count==0) { // EMPLOYEES
     $result = mysqli_query($conn, $sql);
     $count  = $result->num_rows;
    
-    if($count==0)
+    if($bad_entry=="true")
     {
-        $message = "COULDNT FIND USERNAME OR PASSWORD.";
+
+        $message = "***COULDNT FIND USERNAME OR PASSWORD***";
     }
     else
     { 
@@ -36,16 +36,15 @@ if($count==0) { // EMPLOYEES
         if ($row['Admin'] == 4){
             header('Location: super_admin_main.php?current_user=' .$user_name);
         }
-        $message = "You are successfully authenticated!";
+        
     }
 } else { // REGULAR USERS
 
         header('Location: user_main.php?current_user=' .$user_name);
         
-	$message = "You are successfully authenticated!";
+
 	$userID = $result['User_ID'];
 }
-echo $message;
 ?> 
 
 
@@ -121,7 +120,7 @@ span.psw {
 </style>
 </head>
 <body>
-
+<p id ="error_message" style = "color:red; font-weight:bold;text-align:center;" ><?php echo $message?></p>
 
 <h2>Login Form</h2>
 
@@ -132,16 +131,9 @@ span.psw {
 
     <label for="psw" ><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
-        
+     <input type='hidden' name='bad_entry' value='true' />
     <button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
+    
   </div>
 </form>
 

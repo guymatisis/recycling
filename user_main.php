@@ -46,14 +46,14 @@ else
 
 <!doctype html>
 <style>* {
-+        margin: 0;
-+        padding: 0;
-+        border: 0;
-+        outline: 0;
-+      
-+        vertical-align: baseline;
-+        
-+    }</style>
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+      
+        vertical-align: baseline;
+        
+    }</style>
 <html lang="en">
     <head>
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
