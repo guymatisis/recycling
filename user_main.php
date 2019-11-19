@@ -16,8 +16,7 @@ if($count>0)
 }
 else
 {
-
-  echo "DATABASE ERROR!";
+    $municipality = "Unknown";
 }  
 ?> 
 
@@ -46,9 +45,19 @@ else
 
 
 <!doctype html>
+<style>* {
++        margin: 0;
++        padding: 0;
++        border: 0;
++        outline: 0;
++      
++        vertical-align: baseline;
++        
++    }</style>
 <html lang="en">
     <head>
-    	<div style = "width:100%;height:100%;">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    	<div style = "width:100vw;height:20vh;">
 	       <div class = "title_bar" > 
                 <div class = "title_bar_text">
                     <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
@@ -68,8 +77,8 @@ else
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         #map {
-            width: 100%;
-            height: 814px;
+            width: 100vw;
+            height: 80vh;
         }
         </style>
         <title></title>
@@ -104,14 +113,31 @@ else
         });
         layer_OSMStandard_0;
         map.addLayer(layer_OSMStandard_0);
+        var bin_id ;
         function pop_sample_1(feature, layer) {
+            bin_id = String(feature.properties['id']);
+            //document.getElementById("demo").innerHTML = 'a'+bin_id+'b';
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                        <td colspan="1">' +// (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                        (String(bin_id))+
+                        '</td>\
                     </tr>\
+                     <tr><td ><button type = "button" id = "'+bin_id+'" onclick = "binfull(id)">Alert Bin Full</button></td></tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+
         }
+
+        function binfull(bin_id)
+        {
+               $.ajax({
+                    type: "POST",
+                    url: "binfull.php",
+                    data: {bin_ID:parseInt(bin_id),user_ID:0},
+                    async:false
+                });
+        };
 
         function style_sample_1_0() {
             return {
@@ -158,6 +184,33 @@ else
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/sample_1.png" /> sample': layer_sample_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
         setBounds();
+
+
+        //POPUP BIN LOCATION SUGGESTION
+        var latlng;
+        map.on('click', function(e) {        
+            var popLocation= e.latlng;
+            latlng = map.mouseEventToLatLng(e.originalEvent);
+
+            console.log(latlng.lat + ', ' + latlng.lng);
+            var popup = L.popup()
+            .setLatLng(popLocation)
+            .setContent('<button type="button" onclick="foo(latlng)" > Suggest Bin Location</button>')
+            .openOn(map);      
+        });
+        function foo (latlng) {
+            
+              $.ajax({
+                    type: "POST",
+                    url: "bin_location_suggestion.php",
+                    data: {lat:latlng.lat.toString(),long:latlng.lng.toString(),userID:0},
+                    async:false,
+                    success:function(data) {
+                      (document.body).append('<div>'+data+'</div>');
+                    }
+                });
+              $
+        };
         </script>
     </body>
 </html>
