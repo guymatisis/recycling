@@ -17,7 +17,7 @@ if($count>0)
 else
 {
 
-  echo "DATABASE ERROR!";
+   $municipality = "Unknown";
 }  
 ?> 
 
@@ -39,6 +39,13 @@ else
 .drop_down{
     float: right;
     float:top;
+    font-size: 15px;
+    border: 2px 
+    solid #708090;
+    border-radius: 2px;
+    padding:3px;
+    margin-top:1px;
+     margin-right:20px;
 
 }
 
@@ -46,9 +53,19 @@ else
 
 
 <!doctype html>
+<style>* {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+      
+        vertical-align: baseline;
+        
+    }</style>
+
 <html lang="en">
     <head>
-    	<div style = "width:100%;height:100%;">
+    	<div style = "width:100vw;height:20vh;">
 	       <div class = "title_bar" > 
                 <div class = "title_bar_text">
                     <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
@@ -74,8 +91,8 @@ else
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         #map {
-            width: 100%;
-            height: 814px;
+            width: 100vw;
+            height: 80vh;
         }
         </style>
         <title></title>
