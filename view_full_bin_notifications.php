@@ -1,9 +1,9 @@
 <?php
 require('db_connect.php');
- echo "<h1>Bin Location Suggestions</h1>";
+ echo "<h1>Full Bins</h1>";
 
  
-$search_Query = "SELECT * FROM bin_location_suggestions";
+$search_Query = "SELECT * FROM Bin_Notifications";
 $search_Result = mysqli_query($conn, $search_Query);
 if($search_Result)
 {

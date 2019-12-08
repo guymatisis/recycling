@@ -2,23 +2,6 @@
 <?php 
 require('db_connect.php');
 $user_name= $_GET['current_user'];
-$sql = "SELECT * FROM Employees where user_name = '$user_name'";
-$result = $conn->query($sql);
-$count  = $result->num_rows;
-if($count>0)
-{
-     while($row = mysqli_fetch_array($result))
-    {
-    
-        $municipality = $row['Muni_ID'];
-    }
-
-}
-else
-{
-
-   $municipality = "Unknown";
-}  
 ?> 
 
 <style type="text/css">
@@ -68,7 +51,7 @@ else
     	<div style = "width:100vw;height:20vh;">
 	       <div class = "title_bar" > 
                 <div class = "title_bar_text">
-                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
+                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br><br></p>
                 </div>
                 <select class = "drop_down" onChange="top.location.href=this.options[this.selectedIndex].value;"">
                     <option selected="selected" value = "super_admin_main.php">Select Action</option>

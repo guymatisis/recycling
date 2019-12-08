@@ -1,29 +1,20 @@
 <?php
-
 require('db_connect.php');
-
-if (isset($_GET['uname'])) {
 $user_name = $_GET['uname'];
 $password = $_GET['psw'];
-$bad_entry= $_GET['bad_entry'];
-
-echo $user_name; 
+echo $user_name;
 echo $password;
-echo $bad_entry;
 $sql = "SELECT * FROM registered_users where user_name = '$user_name' and password = '$password'";
 $result = $conn->query($sql);
 $count  = $result->num_rows;
-
 if($count==0) { // EMPLOYEES
-
 	$sql = "SELECT * FROM Employees where User_Name='$user_name' and Password = '$password'";
     $result = mysqli_query($conn, $sql);
     $count  = $result->num_rows;
    
-    if($bad_entry=="true")
+    if($count==0)
     {
-
-        $message = "***COULDNT FIND USERNAME OR PASSWORD***";
+        $message = "COULDNT FIND USERNAME OR PASSWORD.";
     }
     else
     { 
@@ -41,21 +32,16 @@ if($count==0) { // EMPLOYEES
         if ($row['Admin'] == 4){
             header('Location: super_admin_main.php?current_user=' .$user_name);
         }
-        
+        $message = "You are successfully authenticated!";
     }
-  } else { // REGULAR USERS
-
-        header('Location: user_main.php?current_user=' .$user_name);
+} else { // REGULAR USERS
+        header('Location: user_main.html?current_user=' .$user_name);
         
-
+	$message = "You are successfully authenticated!";
 	$userID = $result['User_ID'];
-	}
-  }
-
-
+}
+echo $message;
 ?> 
-
-
 
 
 
@@ -66,7 +52,6 @@ if($count==0) { // EMPLOYEES
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 form {border: 3px solid #f1f1f1;}
-
 input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
@@ -75,7 +60,6 @@ input[type=text], input[type=password] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
-
 button {
   background-color: #4CAF50;
   color: white;
@@ -85,36 +69,29 @@ button {
   cursor: pointer;
   width: 100%;
 }
-
 button:hover {
   opacity: 0.8;
 }
-
 .cancelbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
 }
-
 .imgcontainer {
   text-align: center;
   margin: 24px 0 12px 0;
 }
-
 img.avatar {
   width: 40%;
   border-radius: 50%;
 }
-
 .container {
   padding: 16px;
 }
-
 span.psw {
   float: right;
   padding-top: 16px;
 }
-
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
   span.psw {
@@ -128,7 +105,7 @@ span.psw {
 </style>
 </head>
 <body>
-<p id ="error_message" style = "color:red; font-weight:bold;text-align:center;" ><?php echo $message?></p>
+
 
 <h2>Login Form</h2>
 
@@ -139,9 +116,16 @@ span.psw {
 
     <label for="psw" ><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
-     <input type='hidden' name='bad_entry' value='true' />
+        
     <button type="submit">Login</button>
-    
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
 </form>
 

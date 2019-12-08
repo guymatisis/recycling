@@ -12,12 +12,14 @@ if($password == $password_repeat)
 $sql = "SELECT * FROM registered_users where user_name = '$user_name'";
 $result = $conn->query($sql);
 $count  = (int)$result->num_rows;
-
 if($count>0)
 {
+  if ($user_name != 0){
    $message=  "USER NAME ALREADY IN USE";
+    }
+  
 }
-else{
+else {
     $sql = "Insert Into registered_users (user_name,password) values('$user_name','$password')";
     if ($conn->query($sql) === TRUE) {
      }   else {

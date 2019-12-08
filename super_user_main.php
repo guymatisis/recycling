@@ -60,7 +60,7 @@ else
                     <option value="super_admin_add_delete_users.php">Get Efficient Bin Distribution</option>
                     <option value="super_admin_edit_users.php"  >Edit Building Data</option>
                     <option value="view_full_bin_notifications.php">Full Bin Notifications</option>
-                    <option value="super_admin_add_delete_users.php">Bin Location Suggestions</option>
+                    <option value="view_bin_location_suggestions.php">Bin Location Suggestions</option>
                 </select>
               </div>
             <div id="map"  ></div>

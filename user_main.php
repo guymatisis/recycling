@@ -60,7 +60,7 @@ else
     	<div style = "width:100vw;height:20vh;">
 	       <div class = "title_bar" > 
                 <div class = "title_bar_text">
-                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br>Municipality #: <?php echo $municipality;?></p>
+                    <p id = "user_name" style="font-size: 24px; ">User Name: <?php echo $user_name;?><br><br></p>
                 </div>
               </div>
             <div id="map"  ></div>
