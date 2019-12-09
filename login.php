@@ -16,13 +16,13 @@ $count  = $result->num_rows;
 
 if($count==0) { // EMPLOYEES
 
-	$sql = "SELECT * FROM Employees where User_Name='$user_name' and Password = '$password'";
+	$sql = "SELECT * FROM Employees where user_name='$user_name' and Password = '$password'";
     $result = mysqli_query($conn, $sql);
     $count  = $result->num_rows;
    
-    if($bad_entry=="true")
+    if($count ==0)
     {
-
+         $bad_entry = "true";
         $message = "***COULDNT FIND USERNAME OR PASSWORD***";
     }
     else
@@ -41,6 +41,7 @@ if($count==0) { // EMPLOYEES
         if ($row['Admin'] == 4){
             header('Location: super_admin_main.php?current_user=' .$user_name);
         }
+        $bad_entry = "false";
         
     }
   } else { // REGULAR USERS
